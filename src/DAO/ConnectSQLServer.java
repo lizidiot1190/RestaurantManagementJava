@@ -20,6 +20,8 @@ public class ConnectSQLServer {
     private static String dbuserName="sa";
     private static String dbpassWord="123123qq";
     
+    //commit
+    
     public void Login(String userName, String passWord){
         Connection connect = null;
         try{
