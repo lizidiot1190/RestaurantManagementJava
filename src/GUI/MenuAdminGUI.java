@@ -107,6 +107,11 @@ public class MenuAdminGUI extends javax.swing.JFrame {
         btnStaff.setForeground(new java.awt.Color(240, 109, 10));
         btnStaff.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8-staff-48.png"))); // NOI18N
         btnStaff.setText("Staff");
+        btnStaff.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnStaffActionPerformed(evt);
+            }
+        });
 
         btnCategory.setBackground(new java.awt.Color(240, 109, 10));
         btnCategory.setFont(new java.awt.Font("Magneto", 1, 36)); // NOI18N
@@ -219,6 +224,11 @@ public class MenuAdminGUI extends javax.swing.JFrame {
         this.setState(MenuAdminGUI.ICONIFIED);
     }//GEN-LAST:event_btnHideMouseClicked
 
+    private void btnStaffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStaffActionPerformed
+        // TODO add your handling code here:
+        StaffGUI staff = new StaffGUI();
+        staff.setVisible(true);
+    }//GEN-LAST:event_btnStaffActionPerformed
     private void btnCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCategoryActionPerformed
         CategoryGUI categoryGUI = new CategoryGUI();
         categoryGUI.setVisible(true);

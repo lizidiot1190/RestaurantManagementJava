@@ -219,8 +219,8 @@ public class MainGUI extends javax.swing.JFrame {
             button.addActionListener(new ActionListener(){
                 @Override
                 public void actionPerformed(ActionEvent e){
-                    TableGUI tableGUI=new TableGUI(tableName,tableId);
-                    tableGUI.setVisible(true);
+//                    TableGUI tableGUI=new TableGUI(tableName,tableId);
+//                    tableGUI.setVisible(true);
                     
                 }
 
