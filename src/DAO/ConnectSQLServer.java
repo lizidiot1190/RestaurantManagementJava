@@ -18,7 +18,7 @@ import java.sql.Statement;
 public class ConnectSQLServer {
     private static String dbUrl ="jdbc:sqlserver://localhost:1433;"+"databaseName=RestaurantManagement;"+"integratedSercuriry=true";
     private static String dbuserName="sa";
-    private static String dbpassWord="123123qq";
+    private static String dbpassWord="Hoanghiep0106";
     
     public void Login(String userName, String passWord){
         Connection connect = null;
@@ -38,10 +38,10 @@ public class ConnectSQLServer {
             }
             connect.close();
 
-//            System.out.println("Connect to dadabase successfully!");
+            //System.out.println("Connect to dadabase successfully!");
         }catch(Exception ex){
-            System.out.println("Connect Failure!");
-            ex.printStackTrace();
+            System.out.println("Connect Failure!"); 
+            ex.printStackTrace();   
         }
     }
 
