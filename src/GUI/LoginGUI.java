@@ -316,15 +316,19 @@ public class LoginGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btnresetActionPerformed
 
     private void btnsubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsubmitActionPerformed
-        ConnectSQLServer db = new ConnectSQLServer();
+        ConnectSQLServer db=new ConnectSQLServer();
         if (txtusername.getText().equals("")) {
             JOptionPane.showMessageDialog(this, "Please enter your username!");
         }else if (txtpassword.getText().equals("")) {
                 JOptionPane.showMessageDialog(this, "Please enter your password!");
             } else {
-                db.Login(txtusername.getText(), txtpassword.getText());
+            if(db.Login(txtusername.getText(), txtpassword.getText())==true)   {               
+                this.setVisible(false);
             }
-        
+            else{
+                JOptionPane.showMessageDialog(null,"Đăng nhập thất bại!" ,"", JOptionPane.WARNING_MESSAGE);
+            }
+                }
     }//GEN-LAST:event_btnsubmitActionPerformed
 
     /**
