@@ -93,6 +93,11 @@ public class TableGUI extends javax.swing.JFrame {
 
         btnDatBan.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         btnDatBan.setText("Đặt bàn");
+        btnDatBan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDatBanActionPerformed(evt);
+            }
+        });
 
         btnHuyDatBan.setFont(new java.awt.Font("Tahoma", 1, 22)); // NOI18N
         btnHuyDatBan.setText("Hủy đặt bàn");
@@ -223,9 +228,7 @@ public class TableGUI extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(418, 418, 418)
-                            .addComponent(btnHuyDatBan, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnHuyDatBan, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(flpTableBill, javax.swing.GroupLayout.PREFERRED_SIZE, 663, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 407, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -253,6 +256,10 @@ public class TableGUI extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnDatBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDatBanActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnDatBanActionPerformed
 
     /**
      * @param args the command line arguments

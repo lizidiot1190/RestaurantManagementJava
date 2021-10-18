@@ -70,6 +70,11 @@ public class MainGUI extends javax.swing.JFrame {
 
         btnLogout.setFont(new java.awt.Font("Tahoma", 1, 17)); // NOI18N
         btnLogout.setText("Đăng xuất");
+        btnLogout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLogoutActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panel1Layout = new javax.swing.GroupLayout(panel1);
         panel1.setLayout(panel1Layout);
@@ -129,6 +134,10 @@ public class MainGUI extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnLogoutActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -186,6 +195,8 @@ public class MainGUI extends javax.swing.JFrame {
                 case "Trống":
                     button.setBackground(Color.CYAN);
                     break;
+                case "Bàn đặt":
+                    button.setBackground(Color.RED);
                 default:
                     button.setBackground(Color.ORANGE);
                     break;
