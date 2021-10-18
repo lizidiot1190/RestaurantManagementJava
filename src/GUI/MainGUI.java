@@ -56,12 +56,17 @@ public class MainGUI extends javax.swing.JFrame {
         lbDisplayName = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(1600, 900));
+        setLocation(new java.awt.Point(900, 630));
+        setMaximumSize(new java.awt.Dimension(900, 630));
+        setMinimumSize(new java.awt.Dimension(900, 630));
         setName("Quản lý quán ăn"); // NOI18N
-        setPreferredSize(new java.awt.Dimension(1600, 900));
-        setSize(new java.awt.Dimension(1366, 768));
+        setPreferredSize(new java.awt.Dimension(900, 630));
+        setResizable(false);
+        setSize(new java.awt.Dimension(900, 630));
 
         flpTable.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        flpTable.setMaximumSize(new java.awt.Dimension(900, 630));
+        flpTable.setMinimumSize(new java.awt.Dimension(900, 630));
 
         btnLogout.setFont(new java.awt.Font("Tahoma", 1, 17)); // NOI18N
         btnLogout.setText("Đăng xuất");
@@ -99,7 +104,7 @@ public class MainGUI extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lbDisplayName)
                             .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
                 .addComponent(flpTable, javax.swing.GroupLayout.PREFERRED_SIZE, 1282, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(38, 38, 38))
         );
@@ -117,7 +122,7 @@ public class MainGUI extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnManage, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
