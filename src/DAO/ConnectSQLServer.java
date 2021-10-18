@@ -26,7 +26,7 @@ import java.util.Set;
 public class ConnectSQLServer {
     private static String dbUrl ="jdbc:sqlserver://localhost:1433;"+"databaseName=RestaurantManagement;"+"integratedSercuriry=true";
     private static String dbuserName="sa";
-    private static String dbpassWord="Hoanghiep0106";
+    private static String dbpassWord="123123qq";
     
 //    public PreparedStatement ExcuteQuery(String query){
 //        Connection connect = null;
@@ -83,68 +83,8 @@ public class ConnectSQLServer {
     }
     
   
-    public ArrayList<TableDTO> GetTableList(){
-        Connection connect = null;
-        ArrayList<TableDTO> tableList =new ArrayList<>();
-        
-        try{
-            
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            connect =DriverManager.getConnection(dbUrl, dbuserName, dbpassWord);
-            String sql = "SELECT *FROM CustomerTable";
-            PreparedStatement prepStmt = connect.prepareStatement(sql);
-            ResultSet rs = prepStmt.executeQuery();
-            while(rs.next()){
-                TableDTO table=new TableDTO();
-                table.setTableId(rs.getInt(1));
-                table.setTableName(rs.getString(2));
-                table.setTableStatus(rs.getString(3));
-                tableList.add(table);;               
-            }
-
-            prepStmt.close();
-            rs.close();
-            connect.close();
-
-//            System.out.println("Connect to dadabase successfully!");
-        }catch(Exception ex){
-            System.out.println("Connect Failure!");
-            ex.printStackTrace();
-        }
-        return tableList;
-    }
     
-    public ArrayList<FoodDTO> GetFoodList(){
-        Connection connect = null;
-        ArrayList<FoodDTO> foodList =new ArrayList<>();
-        
-        try{
-            
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            connect =DriverManager.getConnection(dbUrl, dbuserName, dbpassWord);
-            String sql = "SELECT *FROM Food ORDER BY catID ASC";
-            PreparedStatement prepStmt = connect.prepareStatement(sql);
-            ResultSet rs = prepStmt.executeQuery();
-            while(rs.next()){
-                FoodDTO food=new FoodDTO();
-                food.setFoodId(rs.getInt(1));
-                food.setFoodName(rs.getString(2));
-                food.setCatId(rs.getInt(3));
-                food.setFoodPrice(rs.getString(4));
-                foodList.add(food);;               
-            }
-
-            prepStmt.close();
-            rs.close();
-            connect.close();
-
-//            System.out.println("Connect to dadabase successfully!");
-        }catch(Exception ex){
-            System.out.println("Connect Failure!");
-            ex.printStackTrace();
-        }
-        return foodList;
-    }
+    
 
 
 }

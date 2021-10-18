@@ -6,6 +6,7 @@
 package BLL;
 
 import DAO.ConnectSQLServer;
+import DAO.FoodDAO;
 import DTO.FoodDTO;
 import java.util.ArrayList;
 
@@ -20,7 +21,7 @@ public class FoodBLL {
     }
     
     public ArrayList<FoodDTO> getListFood(){
-        ConnectSQLServer db=new ConnectSQLServer();
+        FoodDAO db=new FoodDAO();
         listFood =db.GetFoodList();
         return this.listFood;
     }
