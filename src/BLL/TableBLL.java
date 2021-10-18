@@ -6,6 +6,7 @@
 package BLL;
 
 import DAO.ConnectSQLServer;
+import DAO.TableDAO;
 import DTO.TableDTO;
 import java.util.ArrayList;
 
@@ -21,7 +22,7 @@ public class TableBLL {
     }
     
     public ArrayList<TableDTO> getListTable(){
-        ConnectSQLServer db=new ConnectSQLServer();
+        TableDAO db=new TableDAO();
         listTable=db.GetTableList();
         return this.listTable;
     }
