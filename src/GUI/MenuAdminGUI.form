@@ -178,6 +178,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Food"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnFoodActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnRevenue">
           <Properties>
@@ -212,6 +215,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Table"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnTableActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnAccount">
           <Properties>
@@ -263,6 +269,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Category"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCategoryActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="btnExit">
           <Properties>

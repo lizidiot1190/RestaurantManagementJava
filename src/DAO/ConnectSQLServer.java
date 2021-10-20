@@ -24,9 +24,9 @@ import java.util.Set;
  * @author lizid
  */
 public class ConnectSQLServer {
-    private static String dbUrl ="jdbc:sqlserver://localhost:1433;"+"databaseName=RestaurantManagement;"+"integratedSercuriry=true";
+    private static String dbUrl ="jdbc:sqlserver://localhost:1234;"+"databaseName=RestaurantManagement;"+"integratedSercuriry=true";
     private static String dbuserName="sa";
-    private static String dbpassWord="123123qq";
+    private static String dbpassWord="123456";
     
 //    public PreparedStatement ExcuteQuery(String query){
 //        Connection connect = null;
