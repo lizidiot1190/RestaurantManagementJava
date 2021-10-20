@@ -5,14 +5,19 @@
  */
 package GUI;
 
+import BLL.BillBLL;
 import BLL.FoodBLL;
+import BLL.TableBLL;
 import DTO.FoodDTO;
 import DTO.TableDTO;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -24,8 +29,10 @@ public class TableGUI extends javax.swing.JFrame {
      * Creates new form TableGUI
      */
     private String tableName;
-    public TableGUI(String tableName_p) {
+    private int tableId;
+    public TableGUI(String tableName_p,int tableId_p) {
         tableName=tableName_p;
+        tableId=tableId_p;
         initComponents();
         LoadMenu();
     }
@@ -90,6 +97,11 @@ public class TableGUI extends javax.swing.JFrame {
 
         btnPay.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         btnPay.setText("Thanh toán");
+        btnPay.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPayActionPerformed(evt);
+            }
+        });
 
         btnDatBan.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         btnDatBan.setText("Đặt bàn");
@@ -101,14 +113,26 @@ public class TableGUI extends javax.swing.JFrame {
 
         btnHuyDatBan.setFont(new java.awt.Font("Tahoma", 1, 22)); // NOI18N
         btnHuyDatBan.setText("Hủy đặt bàn");
+        btnHuyDatBan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHuyDatBanActionPerformed(evt);
+            }
+        });
 
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         btnDiscount.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         btnDiscount.setText("Giảm giá");
+        btnDiscount.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDiscountActionPerformed(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel2.setText("Phần trăm giảm giá: ");
+
+        spDiscount.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -146,7 +170,7 @@ public class TableGUI extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel3.setText("Bàn cần chuyển:");
 
-        cbChangeTable.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbChangeTable.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -258,8 +282,31 @@ public class TableGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnDatBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDatBanActionPerformed
-        // TODO add your handling code here:
+        TableBLL tableBLL = new TableBLL();
+        tableBLL.changeTableStatus(tableId, "Bàn đặt");
+        JOptionPane.showMessageDialog(this, "Đã chuyển trạng thái thành đặt bàn thành công!");
     }//GEN-LAST:event_btnDatBanActionPerformed
+
+    private void btnHuyDatBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyDatBanActionPerformed
+        TableBLL tableBLL = new TableBLL();
+        tableBLL.changeTableStatus(tableId, "Bàn trống");
+        JOptionPane.showMessageDialog(this, "Đã hủy trạng thái đặt bàn!");
+    }//GEN-LAST:event_btnHuyDatBanActionPerformed
+
+    private void btnDiscountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDiscountActionPerformed
+        if((Integer)spDiscount.getValue()>100||(Integer)spDiscount.getValue()<0 ){
+            JOptionPane.showMessageDialog(this, "Số lượng giảm giá không đúng!");
+        }
+        else{
+            
+        }
+    }//GEN-LAST:event_btnDiscountActionPerformed
+
+    private void btnPayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPayActionPerformed
+        BillBLL billBLL =new BillBLL();
+        billBLL.CheckOutBill(tableId);
+       
+    }//GEN-LAST:event_btnPayActionPerformed
 
     /**
      * @param args the command line arguments
@@ -294,6 +341,10 @@ public class TableGUI extends javax.swing.JFrame {
 //                new TableGUI(String tableName_p)).setVisible(true);
 //            }
 //        });
+    }
+    
+    public void LoadChagetableCbBox(){
+        
     }
     
     public void LoadMenu(){
@@ -346,7 +397,24 @@ public class TableGUI extends javax.swing.JFrame {
                     break;
                 
             }
+            button.addActionListener(new ActionListener(){
+                @Override
+                public void actionPerformed(ActionEvent e){
+                    QuantityGUI qGUI=new QuantityGUI(tableId,foodId);
+                }
+
+
+            });
         }
+        if(lbCheckIn.getText()=="00:00:00"){
+                btnDatBan.setVisible(true);
+                btnHuyDatBan.setVisible(true);
+        }else{
+            
+                btnDatBan.setVisible(false);
+                btnHuyDatBan.setVisible(false);
+        }
+                
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

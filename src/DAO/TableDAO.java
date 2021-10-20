@@ -11,13 +11,15 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  *
  * @author lizid
  */
 public class TableDAO {
-    private static String dbUrl ="jdbc:sqlserver://localhost:1433;"+"databaseName=RestaurantManagement;"+"integratedSercuriry=true";
+    private static String dbUrl ="jdbc:sqlserver://localhost:1433;"+"databaseName=RestaurantManagement;"+"integratedSercuriry=true"+"characterEncoding=UTF-8;";
     private static String dbuserName="sa";
     private static String dbpassWord="123123qq";
     
@@ -51,4 +53,57 @@ public class TableDAO {
         }
         return tableList;
     }
+    
+    public void updateTableStatus (int id, String status){
+        Connection connect = null;
+        try{
+            
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            connect =DriverManager.getConnection(dbUrl, dbuserName, dbpassWord);
+            String sql = "UPDATE CustomerTable SET tableStatus=? WHERE tableID=?";
+            PreparedStatement prepStmt = connect.prepareStatement(sql);
+            prepStmt.setString(1, status);
+            prepStmt.setInt(2, id);
+            prepStmt.executeUpdate();
+
+            prepStmt.close();
+            connect.close();
+
+//            System.out.println("Connect to dadabase successfully!");
+        }catch(Exception ex){
+            System.out.println("Connect Failure!");
+            ex.printStackTrace();
+        }
+    }
+    
+    public ArrayList<TableDTO> GetTableNonBIll(){
+        Connection connect = null;
+        ArrayList<TableDTO> listTable= new ArrayList<>();
+        try{
+            
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            connect =DriverManager.getConnection(dbUrl, dbuserName, dbpassWord);
+            String sql = "SELECT DISTINCT tableId, tableName FROM CustomerTable JOIN Bill ON CustomerTable.tableID = Bill.idTable WHERE billStatus=1 ORDER BY tableID;";
+            PreparedStatement prepStmt = connect.prepareStatement(sql);           
+            ResultSet rs = prepStmt.executeQuery();
+            while(rs.next()){
+                TableDTO table=new TableDTO();
+                table.setTableId(rs.getInt(1));
+                table.setTableName(rs.getString(2));
+                listTable.add(table);
+            }
+
+            prepStmt.close();
+            connect.close();
+
+//            System.out.println("Connect to dadabase successfully!");
+        }catch(Exception ex){
+            System.out.println("Connect Failure!");
+            ex.printStackTrace();
+            
+        }
+        
+        return listTable;
+    }
+            
 }

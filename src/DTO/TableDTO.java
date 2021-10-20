@@ -65,7 +65,7 @@ public class TableDTO {
      */
     public String getTableStatus() {
         return tableStatus;
-    }
+    } 
 
     /**
      * @param tableStatus the tableStatus to set

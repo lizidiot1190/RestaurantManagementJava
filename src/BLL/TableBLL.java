@@ -27,4 +27,9 @@ public class TableBLL {
         return this.listTable;
     }
     
+    public void changeTableStatus(int id, String status){
+        TableDAO tableDAO= new TableDAO();
+        tableDAO.updateTableStatus(id, status);
+    }
+    
 }
