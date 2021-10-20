@@ -89,6 +89,11 @@ public class MainGUI extends javax.swing.JFrame {
 
         btnManage.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         btnManage.setText("Quản lý");
+        btnManage.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnManageActionPerformed(evt);
+            }
+        });
 
         lbDisplayName.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         lbDisplayName.setText("DisplayName");
@@ -109,7 +114,7 @@ public class MainGUI extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lbDisplayName)
                             .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(flpTable, javax.swing.GroupLayout.PREFERRED_SIZE, 1282, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(38, 38, 38))
         );
@@ -138,6 +143,12 @@ public class MainGUI extends javax.swing.JFrame {
         this.dispose();
         
     }//GEN-LAST:event_btnLogoutActionPerformed
+
+    private void btnManageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageActionPerformed
+        MenuAdminGUI mn = new MenuAdminGUI();
+        mn.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btnManageActionPerformed
 
     /**
      * @param args the command line arguments

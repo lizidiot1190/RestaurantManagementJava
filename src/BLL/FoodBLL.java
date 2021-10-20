@@ -5,10 +5,13 @@
  */
 package BLL;
 
+import DAO.CategoryDAO;
 import DAO.ConnectSQLServer;
 import DAO.FoodDAO;
 import DTO.FoodDTO;
 import java.util.ArrayList;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -26,4 +29,43 @@ public class FoodBLL {
         return this.listFood;
     }
     
+    public void GetListFood(JTable table){
+        FoodDAO db=new FoodDAO();
+        listFood =db.GetFoodList();
+        DefaultTableModel foodtb=(DefaultTableModel)table.getModel();
+        foodtb.setRowCount(0);
+        Object row[] = new Object[4];
+        for(int i = 0; i < listFood.size(); i++)
+        {
+            row[0]=listFood.get(i).getFoodId();
+            row[1]=listFood.get(i).getFoodName();
+            CategoryDAO cate =new CategoryDAO();
+            
+            row[2]=cate.GetCateNameById(listFood.get(i).getCatId());
+            row[3]=listFood.get(i).getFoodPrice();
+            //System.out.print(categoryList.get(i).getCategoryName());
+            foodtb.addRow(row);
+        }
+    }
+    
+    public void AddFood(String foodName, String catName, String Price)
+    {
+        FoodDAO foodDAO = new FoodDAO();
+        CategoryDAO catDAO = new CategoryDAO();
+        int catID= catDAO.GetCateIdByName(catName);
+        System.out.println(catID);
+        foodDAO.AddFood(foodName, catID, Price);
+    }
+    public void UpdateFood(String foodName, String catName, String Price, int foodID)
+    {
+        FoodDAO foodDAO = new FoodDAO();
+        CategoryDAO catDAO = new CategoryDAO();
+        int catID = catDAO.GetCateIdByName(catName);
+        foodDAO.UpdateFood(foodName, catID, Price, foodID);
+    }
+    public void DeleteFood(int foodID)
+    {
+        FoodDAO foodDAO = new FoodDAO();
+        foodDAO.DeleteFood(foodID);
+    }
 }

@@ -73,6 +73,11 @@ public class MenuAdminGUI extends javax.swing.JFrame {
         btnFood.setForeground(new java.awt.Color(240, 109, 10));
         btnFood.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8-food-and-wine-48.png"))); // NOI18N
         btnFood.setText("Food");
+        btnFood.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFoodActionPerformed(evt);
+            }
+        });
 
         btnRevenue.setBackground(new java.awt.Color(240, 109, 10));
         btnRevenue.setFont(new java.awt.Font("Magneto", 1, 36)); // NOI18N
@@ -85,6 +90,11 @@ public class MenuAdminGUI extends javax.swing.JFrame {
         btnTable.setForeground(new java.awt.Color(240, 109, 10));
         btnTable.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8-table-64.png"))); // NOI18N
         btnTable.setText("Table");
+        btnTable.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTableActionPerformed(evt);
+            }
+        });
 
         btnAccount.setBackground(new java.awt.Color(240, 109, 10));
         btnAccount.setFont(new java.awt.Font("Magneto", 1, 36)); // NOI18N
@@ -103,6 +113,11 @@ public class MenuAdminGUI extends javax.swing.JFrame {
         btnCategory.setForeground(new java.awt.Color(240, 109, 10));
         btnCategory.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8-food-receiver-48.png"))); // NOI18N
         btnCategory.setText("Category");
+        btnCategory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCategoryActionPerformed(evt);
+            }
+        });
 
         btnExit.setBackground(new java.awt.Color(240, 109, 10));
         btnExit.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -203,6 +218,25 @@ public class MenuAdminGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.setState(MenuAdminGUI.ICONIFIED);
     }//GEN-LAST:event_btnHideMouseClicked
+
+    private void btnCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCategoryActionPerformed
+        CategoryGUI categoryGUI = new CategoryGUI();
+        categoryGUI.setVisible(true);
+        this.setVisible(false);
+        
+    }//GEN-LAST:event_btnCategoryActionPerformed
+
+    private void btnTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTableActionPerformed
+        TableListGUI tableGUI = new TableListGUI();
+        tableGUI.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btnTableActionPerformed
+
+    private void btnFoodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFoodActionPerformed
+        FoodGUI foodGUI = new FoodGUI();
+        foodGUI.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btnFoodActionPerformed
 
     /**
      * @param args the command line arguments
