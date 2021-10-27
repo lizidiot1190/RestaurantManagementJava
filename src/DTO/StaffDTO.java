@@ -5,6 +5,8 @@
  */
 package DTO;
 
+import java.util.Date;
+
 /**
  *
  * @author vhh01
@@ -13,25 +15,25 @@ public class StaffDTO {
     private int staffId;
     private String staffName;
     private String gender;
-    private int dateOfBirth;
-    private String phoneName;
+    private Date dateOfBirth;
+    private String phoneNumber;
     private String address;
     
     public StaffDTO(){
         
     }
 
-    public StaffDTO(int staffId, String staffName, String gender, int dateOfBirth, String phoneName, String address) {
+    public StaffDTO(int staffId, String staffName, String gender, Date dateOfBirth, String phoneNumber, String address) {
         this.staffId = staffId;
         this.staffName = staffName;
         this.gender = gender;
         this.dateOfBirth = dateOfBirth;
-        this.phoneName = phoneName;
+        this.phoneNumber = phoneNumber;
         this.address = address;
         
         
     }
-
+    
     public int getStaffId() {
         return staffId;
     }
@@ -56,20 +58,20 @@ public class StaffDTO {
         this.gender = gender;
     }
 
-    public int getDateOfBirth() {
+    public Date getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(int dateOfBirth) {
+    public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public String getPhoneName() {
-        return phoneName;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setPhoneName(String phoneName) {
-        this.phoneName = phoneName;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public String getAddress() {

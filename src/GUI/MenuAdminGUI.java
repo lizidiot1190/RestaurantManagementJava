@@ -56,19 +56,18 @@ public class MenuAdminGUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(900, 630));
-        setMaximumSize(new java.awt.Dimension(900, 630));
         setMinimumSize(new java.awt.Dimension(900, 630));
         setUndecorated(true);
         setSize(new java.awt.Dimension(900, 630));
 
         jPanel1.setBackground(new java.awt.Color(16, 16, 16));
 
-        jLabel1.setBackground(new java.awt.Color(240, 109, 10));
+        jLabel1.setBackground(new java.awt.Color(153, 255, 255));
         jLabel1.setFont(new java.awt.Font("Eras Bold ITC", 1, 60)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(240, 109, 10));
         jLabel1.setText("ADMIN");
 
-        btnFood.setBackground(new java.awt.Color(240, 109, 10));
+        btnFood.setBackground(new java.awt.Color(153, 255, 255));
         btnFood.setFont(new java.awt.Font("Magneto", 1, 36)); // NOI18N
         btnFood.setForeground(new java.awt.Color(240, 109, 10));
         btnFood.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8-food-and-wine-48.png"))); // NOI18N
@@ -79,13 +78,13 @@ public class MenuAdminGUI extends javax.swing.JFrame {
             }
         });
 
-        btnRevenue.setBackground(new java.awt.Color(240, 109, 10));
+        btnRevenue.setBackground(new java.awt.Color(153, 255, 255));
         btnRevenue.setFont(new java.awt.Font("Magneto", 1, 36)); // NOI18N
         btnRevenue.setForeground(new java.awt.Color(240, 109, 10));
         btnRevenue.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8-revenue-64.png"))); // NOI18N
         btnRevenue.setText("Revenue");
 
-        btnTable.setBackground(new java.awt.Color(240, 109, 10));
+        btnTable.setBackground(new java.awt.Color(153, 255, 255));
         btnTable.setFont(new java.awt.Font("Magneto", 1, 36)); // NOI18N
         btnTable.setForeground(new java.awt.Color(240, 109, 10));
         btnTable.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8-table-64.png"))); // NOI18N
@@ -96,13 +95,18 @@ public class MenuAdminGUI extends javax.swing.JFrame {
             }
         });
 
-        btnAccount.setBackground(new java.awt.Color(240, 109, 10));
+        btnAccount.setBackground(new java.awt.Color(153, 255, 255));
         btnAccount.setFont(new java.awt.Font("Magneto", 1, 36)); // NOI18N
         btnAccount.setForeground(new java.awt.Color(240, 109, 10));
         btnAccount.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8-account-50.png"))); // NOI18N
         btnAccount.setText("Account");
+        btnAccount.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAccountActionPerformed(evt);
+            }
+        });
 
-        btnStaff.setBackground(new java.awt.Color(240, 109, 10));
+        btnStaff.setBackground(new java.awt.Color(153, 255, 255));
         btnStaff.setFont(new java.awt.Font("Magneto", 1, 36)); // NOI18N
         btnStaff.setForeground(new java.awt.Color(240, 109, 10));
         btnStaff.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8-staff-48.png"))); // NOI18N
@@ -113,7 +117,7 @@ public class MenuAdminGUI extends javax.swing.JFrame {
             }
         });
 
-        btnCategory.setBackground(new java.awt.Color(240, 109, 10));
+        btnCategory.setBackground(new java.awt.Color(153, 255, 255));
         btnCategory.setFont(new java.awt.Font("Magneto", 1, 36)); // NOI18N
         btnCategory.setForeground(new java.awt.Color(240, 109, 10));
         btnCategory.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8-food-receiver-48.png"))); // NOI18N
@@ -247,6 +251,13 @@ public class MenuAdminGUI extends javax.swing.JFrame {
         foodGUI.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btnFoodActionPerformed
+
+    private void btnAccountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAccountActionPerformed
+        // TODO add your handling code here:
+        AccountGUI account = new AccountGUI();
+        account.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btnAccountActionPerformed
 
     /**
      * @param args the command line arguments

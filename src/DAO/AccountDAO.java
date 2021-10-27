@@ -40,7 +40,7 @@ public class AccountDAO {
                 account.setAccountID(rs.getInt(1));
                 account.setUserName(rs.getString(2));
                 account.setDisplayName(rs.getString(3));
-                account.setPassWord(rs.getString(4));
+                account.setPassWord(UTILS.md5.md5(rs.getString(4)));
                 account.setType(rs.getInt(5));
                 accountList.add(account);
             }

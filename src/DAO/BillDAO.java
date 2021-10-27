@@ -22,7 +22,7 @@ import java.util.Set;
 public class BillDAO {
     private static String dbUrl ="jdbc:sqlserver://localhost:1433;"+"databaseName=RestaurantManagement;"+"integratedSercuriry=true";
     private static String dbuserName="sa";
-    private static String dbpassWord="123123qq";
+    private static String dbpassWord="Hoanghiep0106";
     
     public void UpdateBill(int billId, int tableId, int discount){
         Connection connect = null;
