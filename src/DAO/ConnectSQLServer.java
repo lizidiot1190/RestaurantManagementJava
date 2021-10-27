@@ -24,9 +24,9 @@ import java.util.Set;
  * @author lizid
  */
 public class ConnectSQLServer {
-    private static String dbUrl ="jdbc:sqlserver://localhost:1234;"+"databaseName=RestaurantManagement;"+"integratedSercuriry=true";
+    private static String dbUrl ="jdbc:sqlserver://localhost:1433;"+"databaseName=RestaurantManagement;"+"integratedSercuriry=true";
     private static String dbuserName="sa";
-    private static String dbpassWord="123456";
+    private static String dbpassWord="Hoanghiep0106";
     
 //    public PreparedStatement ExcuteQuery(String query){
 //        Connection connect = null;
@@ -60,7 +60,7 @@ public class ConnectSQLServer {
             String sql = "SELECT *FROM Account WHERE userName=? AND passWord=?";
             PreparedStatement prepStmt = connect.prepareStatement(sql);
             prepStmt.setString(1, userName);
-            prepStmt.setString(2, passWord);
+            prepStmt.setString(2, UTILS.md5.md5(passWord));
             ResultSet rs = prepStmt.executeQuery();
             if(rs.next()){
                 System.out.println("Login Successful");

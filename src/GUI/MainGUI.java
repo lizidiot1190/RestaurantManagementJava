@@ -56,13 +56,13 @@ public class MainGUI extends javax.swing.JFrame {
         lbDisplayName = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setLocation(new java.awt.Point(900, 630));
-        setMaximumSize(new java.awt.Dimension(900, 630));
-        setMinimumSize(new java.awt.Dimension(900, 630));
+        setLocation(new java.awt.Point(0, 0));
+        setMaximumSize(new java.awt.Dimension(1600, 830));
+        setMinimumSize(new java.awt.Dimension(1600, 830));
         setName("Quản lý quán ăn"); // NOI18N
-        setPreferredSize(new java.awt.Dimension(900, 630));
+        setPreferredSize(new java.awt.Dimension(1600, 830));
         setResizable(false);
-        setSize(new java.awt.Dimension(900, 630));
+        setSize(new java.awt.Dimension(1600, 830));
 
         flpTable.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         flpTable.setMaximumSize(new java.awt.Dimension(900, 630));
@@ -219,8 +219,8 @@ public class MainGUI extends javax.swing.JFrame {
             button.addActionListener(new ActionListener(){
                 @Override
                 public void actionPerformed(ActionEvent e){
-                    TableGUI tableGUI=new TableGUI(tableName,tableId);
-                    tableGUI.setVisible(true);
+//                    TableGUI tableGUI=new TableGUI(tableName,tableId);
+//                    tableGUI.setVisible(true);
                     
                 }
 
