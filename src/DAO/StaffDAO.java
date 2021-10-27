@@ -23,7 +23,7 @@ import java.util.Date;
 public class StaffDAO {
     private static String dbUrl ="jdbc:sqlserver://localhost:1433;"+"databaseName=RestaurantManagement;"+"integratedSercuriry=true";
     private static String dbuserName="sa";
-    private static String dbpassWord="Hoanghiep0106";
+    private static String dbpassWord="123123qq";
     public ArrayList<StaffDTO> GetStaffListdb() {
         Connection connect = null;
         ArrayList<StaffDTO> staffList =new ArrayList<>();

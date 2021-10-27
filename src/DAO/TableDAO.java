@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class TableDAO {
     private static String dbUrl ="jdbc:sqlserver://localhost:1433;"+"databaseName=RestaurantManagement;"+"integratedSercuriry=true";
     private static String dbuserName="sa";
-    private static String dbpassWord="Hoanghiep0106";
+    private static String dbpassWord="123123qq";
     
     public ArrayList<TableDTO> GetTableList(){
         Connection connect = null;

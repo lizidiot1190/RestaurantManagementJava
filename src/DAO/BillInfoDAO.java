@@ -16,7 +16,7 @@ import java.sql.PreparedStatement;
 public class BillInfoDAO {
     private static String dbUrl ="jdbc:sqlserver://localhost:1433;"+"databaseName=RestaurantManagement;"+"integratedSercuriry=true";
     private static String dbuserName="sa";
-    private static String dbpassWord="Hoanghiep0106";
+    private static String dbpassWord="123123qq";
     
     public void AddBillInfo(int billId, int foodId, int count, String note){
         Connection connect = null;
