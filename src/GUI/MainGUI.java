@@ -33,6 +33,7 @@ public class MainGUI extends javax.swing.JFrame {
      */
     private String displayName;
     private int permission;
+    protected TableBLL tableBLL;
     public MainGUI(String displayName_p,int permission_p) {
         displayName=displayName_p;
         permission=permission_p;
@@ -54,6 +55,7 @@ public class MainGUI extends javax.swing.JFrame {
         panel1 = new java.awt.Panel();
         btnManage = new javax.swing.JButton();
         lbDisplayName = new javax.swing.JLabel();
+        jCalendar1 = new com.toedter.calendar.JCalendar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(0, 0));
@@ -63,8 +65,26 @@ public class MainGUI extends javax.swing.JFrame {
         setPreferredSize(new java.awt.Dimension(1600, 830));
         setResizable(false);
         setSize(new java.awt.Dimension(1600, 830));
+        addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                formFocusGained(evt);
+            }
+        });
+        addWindowFocusListener(new java.awt.event.WindowFocusListener() {
+            public void windowGainedFocus(java.awt.event.WindowEvent evt) {
+                formWindowGainedFocus(evt);
+            }
+            public void windowLostFocus(java.awt.event.WindowEvent evt) {
+            }
+        });
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         flpTable.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        flpTable.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         flpTable.setMaximumSize(new java.awt.Dimension(900, 630));
         flpTable.setMinimumSize(new java.awt.Dimension(900, 630));
 
@@ -98,6 +118,8 @@ public class MainGUI extends javax.swing.JFrame {
         lbDisplayName.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         lbDisplayName.setText("DisplayName");
 
+        jCalendar1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -105,16 +127,22 @@ public class MainGUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addComponent(btnManage, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(60, 60, 60)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbDisplayName)
-                            .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(12, 12, 12)
+                                .addComponent(btnManage, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(60, 60, 60)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lbDisplayName)
+                                    .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jCalendar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(18, 18, 18)
                 .addComponent(flpTable, javax.swing.GroupLayout.PREFERRED_SIZE, 1282, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(38, 38, 38))
         );
@@ -122,8 +150,8 @@ public class MainGUI extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(42, 42, 42)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(flpTable, javax.swing.GroupLayout.PREFERRED_SIZE, 781, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(flpTable, javax.swing.GroupLayout.PREFERRED_SIZE, 711, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(38, 38, 38)
@@ -131,8 +159,10 @@ public class MainGUI extends javax.swing.JFrame {
                         .addGap(36, 36, 36)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnManage, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jCalendar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap(81, Short.MAX_VALUE))
         );
 
         pack();
@@ -141,6 +171,7 @@ public class MainGUI extends javax.swing.JFrame {
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
         this.dispose();
+        System.exit(0);
         
     }//GEN-LAST:event_btnLogoutActionPerformed
 
@@ -149,6 +180,18 @@ public class MainGUI extends javax.swing.JFrame {
         mn.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btnManageActionPerformed
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+
+    }//GEN-LAST:event_formWindowActivated
+
+    private void formFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusGained
+
+    }//GEN-LAST:event_formFocusGained
+
+    private void formWindowGainedFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowGainedFocus
+
+    }//GEN-LAST:event_formWindowGainedFocus
 
     /**
      * @param args the command line arguments
@@ -191,41 +234,8 @@ public class MainGUI extends javax.swing.JFrame {
         if(permission!=0){
             btnManage.setVisible(false);
         }
-        TableBLL tableBLL= new TableBLL();        
-        ArrayList<TableDTO> listTable= tableBLL.getListTable();
-        for(int i=0;i<listTable.size();i++){
-            String tableName=listTable.get(i).getTableName();
-            String tableStatus= listTable.get(i).getTableStatus();
-            int tableId = listTable.get(i).getTableId();
-            JButton button = new JButton("<html>" + tableName + "<br>" + tableStatus + "</html>");
-            button.setBackground(Color.CYAN);
-//            button.setForeground(Color.GRAY);
-            button.setPreferredSize(new Dimension(175, 175));
-            button.setFont(new Font("Arial", Font.BOLD, 18));
-            System.out.println(i+"       "+tableName);
-            flpTable.add(button);
-            switch(tableStatus){
-                case "Trống":
-                    button.setBackground(Color.CYAN);
-                    break;
-                case "Bàn đặt":
-                    button.setBackground(Color.RED);
-                    break;
-                default:
-                    button.setBackground(Color.ORANGE);
-                    break;
-                
-            }
-            button.addActionListener(new ActionListener(){
-                @Override
-                public void actionPerformed(ActionEvent e){
-                    TableGUI tableGUI=new TableGUI(tableName,tableId);
-                    tableGUI.setVisible(true);
-                    
-                }
-
-            });
-        }
+        tableBLL =new TableBLL();
+        tableBLL.loadTable(flpTable);
     }
             
     
@@ -233,9 +243,10 @@ public class MainGUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLogout;
-    private javax.swing.JButton btnManage;
-    private javax.swing.JPanel flpTable;
-    private javax.swing.JLabel lbDisplayName;
+    public static javax.swing.JButton btnManage;
+    public static javax.swing.JPanel flpTable;
+    private com.toedter.calendar.JCalendar jCalendar1;
+    public static javax.swing.JLabel lbDisplayName;
     private java.awt.Panel panel1;
     // End of variables declaration//GEN-END:variables
 

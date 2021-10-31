@@ -17,7 +17,7 @@ import java.util.ArrayList;
  * @author lizid
  */
 public class TableDAO {
-    private static String dbUrl ="jdbc:sqlserver://localhost:1433;"+"databaseName=RestaurantManagement;"+"integratedSercuriry=true";
+    private static String dbUrl ="jdbc:sqlserver://localhost:1433;"+"databaseName=RestaurantManagement;"+"integratedSercuriry=true;"+"sendStringParametersAsUnicode=true;";
     private static String dbuserName="sa";
     private static String dbpassWord="123123qq";
     
@@ -119,7 +119,7 @@ public class TableDAO {
         }
     }
     
-        public void updateTableStatus (int id, String status){
+    public void updateTableStatus (int id, String status){
         Connection connect = null;
         try{
             
@@ -141,21 +141,20 @@ public class TableDAO {
         }
     }
     
-    public ArrayList<TableDTO> GetTableNonBIll(){
+    public ArrayList<String> GetTableNameNonBill(){
         Connection connect = null;
-        ArrayList<TableDTO> listTable= new ArrayList<>();
+        ArrayList<String> listTableName= new ArrayList<>();
         try{
             
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             connect =DriverManager.getConnection(dbUrl, dbuserName, dbpassWord);
-            String sql = "SELECT DISTINCT tableId, tableName FROM CustomerTable JOIN Bill ON CustomerTable.tableID = Bill.idTable WHERE billStatus=1 ORDER BY tableID;";
+            String sql = "SELECT tableName FROM CustomerTable WHERE tableStatus=N'Trống'";
             PreparedStatement prepStmt = connect.prepareStatement(sql);           
             ResultSet rs = prepStmt.executeQuery();
             while(rs.next()){
-                TableDTO table=new TableDTO();
-                table.setTableId(rs.getInt(1));
-                table.setTableName(rs.getString(2));
-                listTable.add(table);
+                String name;                
+                name=rs.getString(1);
+                listTableName.add(name);
             }
 
             prepStmt.close();
@@ -168,11 +167,65 @@ public class TableDAO {
             
         }
         
-        return listTable;
+        return listTableName;
     }
+    
+    public String GetTableName(int tableId){
+        Connection connect = null;
+        String name="";
+        try{
+            
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            connect =DriverManager.getConnection(dbUrl, dbuserName, dbpassWord);
+            String sql = "SELECT tableName FROM CustomerTable WHERE tableId=?";
+            PreparedStatement prepStmt = connect.prepareStatement(sql);
+            prepStmt.setInt(1, tableId);
+            ResultSet rs = prepStmt.executeQuery();
+            if(rs.next()){
+                name=rs.getString(1);
+            }
+
+            prepStmt.close();
+            rs.close();
+            connect.close();
+
+//            System.out.println("Connect to dadabase successfully!");
+        }catch(Exception ex){
+            System.out.println("Connect Failure!");
+            ex.printStackTrace();
+        }
+        
+        return name;
+    }
+    
+    public int GetTableId(String tableName){
+        Connection connect = null;
+        int id =0;
+        try{
+            
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            connect =DriverManager.getConnection(dbUrl, dbuserName, dbpassWord);
+            String sql = "SELECT tableID FROM CustomerTable WHERE tableName=?";
+            PreparedStatement prepStmt = connect.prepareStatement(sql);
+            prepStmt.setString(1, tableName);
+            ResultSet rs = prepStmt.executeQuery();
+            if(rs.next()){
+                id=rs.getInt(1);
+            }
+
+            prepStmt.close();
+            rs.close();
+            connect.close();
+
+//            System.out.println("Connect to dadabase successfully!");
+        }catch(Exception ex){
+            System.out.println("Connect Failure!");
+            ex.printStackTrace();
+        }
+        
+        return id;
+    }
+    
+    
 }
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+

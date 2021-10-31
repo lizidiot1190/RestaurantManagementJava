@@ -130,5 +130,58 @@ public class FoodDAO {
             e.printStackTrace();
         }
     }
+    public String GetFoodNameById(int id){
+        Connection connect = null;
+        String name="";
+        try{
+            
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            connect =DriverManager.getConnection(dbUrl, dbuserName, dbpassWord);
+            String sql = "SELECT foodName FROM Food WHERE foodId=?";
+            PreparedStatement prepStmt = connect.prepareStatement(sql);
+            prepStmt.setInt(1, id);
+            ResultSet rs = prepStmt.executeQuery();
+            while(rs.next()){
+                name=rs.getString(1);
+            }
+
+            prepStmt.close();
+            rs.close();
+            connect.close();
+
+//            System.out.println("Connect to dadabase successfully!");
+        }catch(Exception ex){
+            System.out.println("Connect Failure!");
+            ex.printStackTrace();
+        }
+        return name;
+    }
+    
+    public double GetFoodPriceById(int id){
+        Connection connect = null;
+        double price=0;
+        try{
+            
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            connect =DriverManager.getConnection(dbUrl, dbuserName, dbpassWord);
+            String sql = "SELECT foodPrice FROM Food WHERE foodId=?";
+            PreparedStatement prepStmt = connect.prepareStatement(sql);
+            prepStmt.setInt(1, id);
+            ResultSet rs = prepStmt.executeQuery();
+            while(rs.next()){
+                price=rs.getDouble(1);
+            }
+
+            prepStmt.close();
+            rs.close();
+            connect.close();
+
+//            System.out.println("Connect to dadabase successfully!");
+        }catch(Exception ex){
+            System.out.println("Connect Failure!");
+            ex.printStackTrace();
+        }
+        return price;
+    }
 }
 

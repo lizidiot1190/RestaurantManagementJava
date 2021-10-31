@@ -40,7 +40,7 @@ public class FoodGUI extends javax.swing.JFrame {
         listCate = catBLL.GetCategoryList();
         for(int i=0;i<listCate.size();i++)
         {
-            cbbCategory.addItem(listCate.get(i).getCategoryName());            
+            cbbCategory.addItem(listCate.get(i).getCategoryName());
         }
     }
 
