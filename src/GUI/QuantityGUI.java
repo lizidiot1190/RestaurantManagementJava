@@ -4,6 +4,12 @@
  */
 package GUI;
 
+import BLL.BillBLL;
+import BLL.BillInfoBLL;
+import BLL.TableBLL;
+import DAO.BillDAO;
+import javax.swing.JOptionPane;
+
 
 /**
  *
@@ -14,10 +20,15 @@ public class QuantityGUI extends javax.swing.JFrame {
     /**
      * Creates new form QuantityGUI
      */
+    
     int tableId, foodId;
-    public QuantityGUI(int tableId_p, int foodId_p) {
+    String tableName;
+    protected BillInfoBLL billInfoBLL;
+    protected TableBLL tableBLL;
+    public QuantityGUI(int tableId_p,String tableName_p, int foodId_p) {
         initComponents();
         tableId=tableId_p;
+        tableName=tableName_p;
         foodId=foodId_p;
     }
 
@@ -38,13 +49,15 @@ public class QuantityGUI extends javax.swing.JFrame {
         btnChooseQuantity = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtQuantityNote = new javax.swing.JTextArea();
+        jLabel1 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Chọn số lượng cho món ăn");
 
         spQuantity.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
 
-        btnChooseQuantity.setText("Chọn");
+        btnChooseQuantity.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnChooseQuantity.setText("Thêm món");
         btnChooseQuantity.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnChooseQuantityActionPerformed(evt);
@@ -55,6 +68,9 @@ public class QuantityGUI extends javax.swing.JFrame {
         txtQuantityNote.setRows(5);
         jScrollPane1.setViewportView(txtQuantityNote);
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel1.setText("Chú thích :");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -62,13 +78,17 @@ public class QuantityGUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(26, 26, 26)
                 .addComponent(spQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
-                .addComponent(btnChooseQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnChooseQuantity, javax.swing.GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE)
                 .addGap(28, 28, 28))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1)
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -77,8 +97,10 @@ public class QuantityGUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnChooseQuantity, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(spQuantity, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -88,9 +110,32 @@ public class QuantityGUI extends javax.swing.JFrame {
 
     private void btnChooseQuantityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChooseQuantityActionPerformed
 
-        int quantity=(int) spQuantity.getValue();
-        String note=txtQuantityNote.getText();
+        BillBLL billBLL = new BillBLL();
         
+        int quantity=(int) spQuantity.getValue();
+        
+        if(quantity <1){
+            JOptionPane.showMessageDialog(this, "Số lượng không thể nhỏ hơn 0!");
+        }
+        else{
+            String note=txtQuantityNote.getText();
+            billBLL.AddOrUpdateBill(tableId, foodId, quantity, note);
+        
+            this.setVisible(false);;
+            billInfoBLL = new BillInfoBLL();
+            BillDAO billDAO =new BillDAO();
+            int billId=billDAO.GetBillId(tableId);
+            billInfoBLL.FillBillItem(TableGUI.jTable1,billId);
+            
+            MainGUI.flpTable.removeAll();
+            tableBLL =new TableBLL();
+            tableBLL.loadTable(MainGUI.flpTable);
+            MainGUI.flpTable.validate();
+            MainGUI.flpTable.revalidate();
+            MainGUI.flpTable.repaint();
+        }
+        
+      
     }//GEN-LAST:event_btnChooseQuantityActionPerformed
 
     /**
@@ -130,8 +175,9 @@ public class QuantityGUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnChooseQuantity;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JSpinner spQuantity;
-    private javax.swing.JTextArea txtQuantityNote;
+    public static javax.swing.JSpinner spQuantity;
+    public static javax.swing.JTextArea txtQuantityNote;
     // End of variables declaration//GEN-END:variables
 }

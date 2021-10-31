@@ -53,7 +53,6 @@ public class FoodBLL {
         FoodDAO foodDAO = new FoodDAO();
         CategoryDAO catDAO = new CategoryDAO();
         int catID= catDAO.GetCateIdByName(catName);
-        System.out.println(catID);
         foodDAO.AddFood(foodName, catID, Price);
     }
     public void UpdateFood(String foodName, String catName, String Price, int foodID)

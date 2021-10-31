@@ -6,18 +6,22 @@
 package GUI;
 
 import BLL.BillBLL;
+import BLL.BillInfoBLL;
 import BLL.FoodBLL;
 import BLL.TableBLL;
+import DAO.BillDAO;
 import DTO.FoodDTO;
-import DTO.TableDTO;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
 
 /**
  *
@@ -28,13 +32,26 @@ public class TableGUI extends javax.swing.JFrame {
     /**
      * Creates new form TableGUI
      */
-    private String tableName;
-    private int tableId;
+    protected BillInfoBLL billInfoBLL;
+    protected BillBLL billBLL;
+    protected FoodBLL foodBLL;
+    protected TableBLL tableBLL;
+    protected BillDAO billDAO;
+    private final String tableName;
+    private final int tableId;
     public TableGUI(String tableName_p,int tableId_p) {
+        
+       
+        initComponents();
         tableName=tableName_p;
         tableId=tableId_p;
-        initComponents();
+        billDAO = new BillDAO();
+        int billId = billDAO.GetBillId(tableId);
+        billInfoBLL= new BillInfoBLL();
+        billInfoBLL.FillBillItem(jTable1, billId);
         LoadMenu();
+        LoadChageTableCbBox();
+
     }
 
     /**
@@ -65,35 +82,67 @@ public class TableGUI extends javax.swing.JFrame {
         cbChangeTable = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
         txtTotal = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(1366, 768));
         setSize(new java.awt.Dimension(1366, 768));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         lbTableName.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
         lbTableName.setText("Tên bàn");
 
         flpTableBill.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
-        jLabel1.setText("Giờ vào: ");
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel1.setText("Thời gian vào:");
 
-        lbCheckIn.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        lbCheckIn.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         lbCheckIn.setText("00:00:00");
 
         jTable1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {},
-                {},
-                {},
-                {}
+
             },
             new String [] {
-
+                "Bill Info Id", "Tên món", "Chú thích", "Số lượng", "Đơn giá", "Thành tiền"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.Object.class, java.lang.Double.class, java.lang.Double.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setResizable(false);
+            jTable1.getColumnModel().getColumn(0).setPreferredWidth(1);
+            jTable1.getColumnModel().getColumn(1).setResizable(false);
+            jTable1.getColumnModel().getColumn(2).setResizable(false);
+            jTable1.getColumnModel().getColumn(3).setResizable(false);
+            jTable1.getColumnModel().getColumn(4).setResizable(false);
+            jTable1.getColumnModel().getColumn(5).setResizable(false);
+        }
 
         btnPay.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         btnPay.setText("Thanh toán");
@@ -130,9 +179,9 @@ public class TableGUI extends javax.swing.JFrame {
         });
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel2.setText("Phần trăm giảm giá: ");
+        jLabel2.setText("Giảm giá( %):");
 
-        spDiscount.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        spDiscount.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -150,15 +199,13 @@ public class TableGUI extends javax.swing.JFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(btnDiscount, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
                         .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
-                        .addComponent(spDiscount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(spDiscount, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnDiscount, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -166,6 +213,11 @@ public class TableGUI extends javax.swing.JFrame {
 
         btnChangeTable.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         btnChangeTable.setText("Chuyển bàn");
+        btnChangeTable.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnChangeTableActionPerformed(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel3.setText("Bàn cần chuyển:");
@@ -186,7 +238,7 @@ public class TableGUI extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(cbChangeTable, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -204,7 +256,12 @@ public class TableGUI extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel4.setText("Tổng: ");
 
-        txtTotal.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        txtTotal.setEditable(false);
+        txtTotal.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        txtTotal.setHorizontalAlignment(SwingConstants.RIGHT);
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel5.setText("VNĐ");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -212,33 +269,38 @@ public class TableGUI extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(34, 34, 34)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lbTableName, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel1))
+                    .addComponent(flpTableBill, javax.swing.GroupLayout.PREFERRED_SIZE, 587, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(flpTableBill, javax.swing.GroupLayout.PREFERRED_SIZE, 587, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addComponent(lbCheckIn)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(btnDatBan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnHuyDatBan, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnDatBan, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnHuyDatBan, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(18, 18, 18)
                                 .addComponent(btnPay, javax.swing.GroupLayout.DEFAULT_SIZE, 149, Short.MAX_VALUE))
-                            .addComponent(jScrollPane1)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(106, 106, 106)
                                 .addComponent(jLabel4)
                                 .addGap(18, 18, 18)
-                                .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lbTableName, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(209, 209, 209)
-                        .addComponent(jLabel1)
-                        .addGap(29, 29, 29)
-                        .addComponent(lbCheckIn)))
+                                .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel5)
+                                .addGap(21, 21, 21)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -251,30 +313,33 @@ public class TableGUI extends javax.swing.JFrame {
                     .addComponent(lbCheckIn))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(btnHuyDatBan, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(flpTableBill, javax.swing.GroupLayout.PREFERRED_SIZE, 663, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 407, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(txtTotal)
+                                .addComponent(jLabel4)))
+                        .addGap(20, 20, 20)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(20, 20, 20)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(btnDatBan, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(121, 121, 121))
-                                    .addComponent(btnPay, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(106, 106, 106))))
+                                        .addGap(29, 29, 29)
+                                        .addComponent(btnHuyDatBan, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(9, 9, 9))
+                                    .addComponent(btnPay, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addContainerGap(41, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(35, 35, 35))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(flpTableBill, javax.swing.GroupLayout.PREFERRED_SIZE, 702, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(22, Short.MAX_VALUE))))
         );
 
         pack();
@@ -285,12 +350,26 @@ public class TableGUI extends javax.swing.JFrame {
         TableBLL tableBLL = new TableBLL();
         tableBLL.changeTableStatus(tableId, "Bàn đặt");
         JOptionPane.showMessageDialog(this, "Đã chuyển trạng thái thành đặt bàn thành công!");
+        
+        MainGUI.flpTable.removeAll();
+            tableBLL =new TableBLL();
+            tableBLL.loadTable(MainGUI.flpTable);
+            MainGUI.flpTable.validate();
+            MainGUI.flpTable.revalidate();
+            MainGUI.flpTable.repaint();
     }//GEN-LAST:event_btnDatBanActionPerformed
 
     private void btnHuyDatBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyDatBanActionPerformed
         TableBLL tableBLL = new TableBLL();
-        tableBLL.changeTableStatus(tableId, "Bàn trống");
+        tableBLL.changeTableStatus(tableId, "Trống");
         JOptionPane.showMessageDialog(this, "Đã hủy trạng thái đặt bàn!");
+        
+        MainGUI.flpTable.removeAll();
+            tableBLL =new TableBLL();
+            tableBLL.loadTable(MainGUI.flpTable);
+            MainGUI.flpTable.validate();
+            MainGUI.flpTable.revalidate();
+            MainGUI.flpTable.repaint();
     }//GEN-LAST:event_btnHuyDatBanActionPerformed
 
     private void btnDiscountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDiscountActionPerformed
@@ -298,20 +377,77 @@ public class TableGUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Số lượng giảm giá không đúng!");
         }
         else{
-            
+            int discount = (int) spDiscount.getValue();
+            billBLL=new BillBLL();
+            billBLL.Discount(tableId, discount);
+            billDAO = new BillDAO();
+            int billId = billDAO.GetBillId(tableId);
+            billInfoBLL= new BillInfoBLL();
+            billInfoBLL.FillBillItem(jTable1, billId);
         }
     }//GEN-LAST:event_btnDiscountActionPerformed
 
     private void btnPayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPayActionPerformed
-        BillBLL billBLL =new BillBLL();
-        billBLL.CheckOutBill(tableId);
+        String tableName = lbTableName.getText();
+        String total = txtTotal.getText();
+        int discount = (int) spDiscount.getValue();
+        String message = "Bạn có muốn thanh toán "+tableName+" với giảm giá là "+discount+ "% và tổng Bill là: "+total+" VNĐ ?";
+        JLabel label = new JLabel(message);
+        label.setFont(new Font("Arial", Font.BOLD, 18));
+        int result = JOptionPane.showConfirmDialog(this, label,"Thông báo",JOptionPane.OK_CANCEL_OPTION);
+        if(result == JOptionPane.YES_OPTION){
+            billBLL =new BillBLL();
+            billBLL.CheckOutBill(tableId, discount);
+            this.dispose();
+            
+            
+            MainGUI.flpTable.removeAll();
+            tableBLL =new TableBLL();
+            tableBLL.loadTable(MainGUI.flpTable);
+            MainGUI.flpTable.validate();
+            MainGUI.flpTable.revalidate();
+            MainGUI.flpTable.repaint();
+        }
+        
+        
+        
+
        
     }//GEN-LAST:event_btnPayActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+
+    }//GEN-LAST:event_formWindowClosed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        
+        int billInfoId = 0;
+        String note = "";
+        int count = 0;
+        int row = jTable1.getSelectedRow();
+        if(row>=0){
+            billInfoId=(int) jTable1.getValueAt(row, 0);
+            note=jTable1.getValueAt(row, 2).toString();
+            count = (int) jTable1.getValueAt(row, 3);
+        }
+        UpdateBillItemGUI updateGUI = new UpdateBillItemGUI(tableId);
+        UpdateBillItemGUI.txtBillInfoId.setText(Integer.toString(billInfoId));
+        UpdateBillItemGUI.sp_ItemQuantity.setValue(count);
+        UpdateBillItemGUI.txt_UpdateNote.setText(note);
+        updateGUI.setVisible(true);
+//        this.setEnabled(false);
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void btnChangeTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChangeTableActionPerformed
+        String newTable = (String) cbChangeTable.getSelectedItem();
+        tableBLL = new TableBLL();
+        tableBLL.ChangeTable(newTable, tableId);
+    }//GEN-LAST:event_btnChangeTableActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+//    public static void main(String args[]) {
 //        /* Set the Nimbus look and feel */
 //        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
 //        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -338,18 +474,26 @@ public class TableGUI extends javax.swing.JFrame {
 //        /* Create and display the form */
 //        java.awt.EventQueue.invokeLater(new Runnable() {
 //            public void run() {
-//                new TableGUI(String tableName_p)).setVisible(true);
+//                new TableGUI(tableName_p,tableId_p)).setVisible(true);
 //            }
 //        });
-    }
+//    }
     
-    public void LoadChagetableCbBox(){
-        
+    public void LoadChageTableCbBox(){
+        tableBLL = new TableBLL();
+        ArrayList<String> listTableName = new ArrayList<String>();
+        listTableName=tableBLL.GetListTableNameNonBill();
+        for(int i=0; i<listTableName.size();i++){
+            cbChangeTable.addItem(listTableName.get(i));
+
+        }
     }
-    
     public void LoadMenu(){
+        billDAO = new BillDAO();
+        SimpleDateFormat datefm =new SimpleDateFormat("HH:mm:ss");
+        lbCheckIn.setText(billDAO.getCheckIn(billDAO.GetBillId(tableId)));
         lbTableName.setText(tableName);
-        FoodBLL foodBLL =new FoodBLL();
+        foodBLL =new FoodBLL();
         ArrayList<FoodDTO> listFood= foodBLL.getListFood();
         for(int i=0;i<listFood.size();i++){
             int catId=listFood.get(i).getCatId();
@@ -359,7 +503,6 @@ public class TableGUI extends javax.swing.JFrame {
             JButton button = new JButton("<html>" + foodName + "<br>" + foodPrice + "</html>");
             button.setPreferredSize(new Dimension(100, 100));
             button.setFont(new Font("Arial", Font.BOLD, 14));
-            System.out.println(i+"       "+tableName);
             flpTableBill.add(button);
             switch(catId%10){
                 case 1:
@@ -400,7 +543,9 @@ public class TableGUI extends javax.swing.JFrame {
             button.addActionListener(new ActionListener(){
                 @Override
                 public void actionPerformed(ActionEvent e){
-                    QuantityGUI qGUI=new QuantityGUI(tableId,foodId);
+                    QuantityGUI qGUI=new QuantityGUI(tableId,tableName,foodId);
+                    qGUI.setVisible(true);
+                    
                 }
 
 
@@ -416,6 +561,8 @@ public class TableGUI extends javax.swing.JFrame {
         }
                 
     }
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnChangeTable;
@@ -429,13 +576,14 @@ public class TableGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JLabel lbCheckIn;
+    public static javax.swing.JTable jTable1;
+    public static javax.swing.JLabel lbCheckIn;
     private javax.swing.JLabel lbTableName;
-    private javax.swing.JSpinner spDiscount;
-    private javax.swing.JTextField txtTotal;
+    public static javax.swing.JSpinner spDiscount;
+    public static javax.swing.JTextField txtTotal;
     // End of variables declaration//GEN-END:variables
 }

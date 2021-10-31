@@ -12,6 +12,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.sql.ResultSet;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -21,9 +23,9 @@ import java.util.Set;
  * @author lizid
  */
 public class BillDAO {
-    private static String dbUrl ="jdbc:sqlserver://localhost:1234;"+"databaseName=RestaurantManagement;"+"integratedSercuriry=true";
+    private static String dbUrl ="jdbc:sqlserver://localhost:1433;"+"databaseName=RestaurantManagement;"+"integratedSercuriry=true";
     private static String dbuserName="sa";
-    private static String dbpassWord="123456";
+    private static String dbpassWord="123123qq";
     
     public void UpdateBill(int billId, int tableId, int discount){
         Connection connect = null;
@@ -45,7 +47,8 @@ public class BillDAO {
         }
     }
     
-    public void AddBill( int tableId, Date checkIn, Date checkOut, int discount){
+
+    public void AddBill( int tableId, String checkIn, String checkOut){
         Connection connect = null;
         try{
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -53,10 +56,10 @@ public class BillDAO {
             String sql = "INSERT INTO Bill VALUES(?,?,?,?,?) ";
             PreparedStatement prepStmt = connect.prepareStatement(sql);
             prepStmt.setInt(1,tableId);
-            prepStmt.setDate(2, (java.sql.Date) checkIn);
-            prepStmt.setDate(3, (java.sql.Date) checkOut);
+            prepStmt.setString(2, checkIn);
+            prepStmt.setString(3, checkOut);
             prepStmt.setInt(4,0);
-            prepStmt.setInt(5, discount);
+            prepStmt.setInt(5, 0);
             prepStmt.executeUpdate();
             prepStmt.close();
             connect.close();
@@ -119,15 +122,43 @@ public class BillDAO {
         return result;
     }
     
-    public void CheckOutBill(int billID,Date checkOut){
+     public int GetBillId(int tableId){
         Connection connect = null;
+        int result=0;
         try{
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             connect =DriverManager.getConnection(dbUrl, dbuserName, dbpassWord);
-            String sql = "UPDATE Bill SET  checkOUt=?, tableStatus=1 WHERE billID=? ";
+            String sql = "SELECT *FROM Bill WHERE idTable=? and billStatus=0";
             PreparedStatement prepStmt = connect.prepareStatement(sql);
-            prepStmt.setDate(1, (java.sql.Date) checkOut);
-            prepStmt.executeUpdate();
+            prepStmt.setInt(1,tableId);
+            ResultSet rs =prepStmt.executeQuery();
+            while(rs.next()){
+                result = rs.getInt(1);
+            }
+        }
+        catch(Exception ex){
+            System.out.println("Connect Failure!");
+            ex.printStackTrace();
+        }
+        return result;
+    }
+     
+    public String getCheckIn(int billId){
+        Connection connect = null;;
+        String date = "00:00:00";
+        try{
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            connect =DriverManager.getConnection(dbUrl, dbuserName, dbpassWord);
+            String sql = "SELECT checkIn FROM Bill WHERE billID=? ";
+            PreparedStatement prepStmt = connect.prepareStatement(sql);
+            prepStmt.setInt(1, billId);
+            ResultSet rs = prepStmt.executeQuery();
+
+            if(rs.next())
+                date=rs.getString(1);
+            else{
+                return date;
+            }
             prepStmt.close();
             connect.close();
             
@@ -135,7 +166,6 @@ public class BillDAO {
         catch(Exception ex){
             ex.printStackTrace();
         }
-    }
     
     public ArrayList<BillDTO> GetBillListByStatus(){
         Connection connect = null;
@@ -210,5 +240,84 @@ public class BillDAO {
             ex.printStackTrace();
         }
         return ListBill;
+    }
+    
+    public void CheckOutBill(int billID,String checkOut, int discount){
+        Connection connect = null;
+        try{
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            connect =DriverManager.getConnection(dbUrl, dbuserName, dbpassWord);
+            String sql = "UPDATE Bill SET  checkOUt=?,discount=?, billStatus=1 WHERE billID=? ";
+            PreparedStatement prepStmt = connect.prepareStatement(sql);
+            prepStmt.setString(1,checkOut);
+            prepStmt.setInt(2, discount);
+            prepStmt.setInt(3, billID);
+            prepStmt.executeUpdate();
+            prepStmt.close();
+            connect.close();
+            
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+        }
+    }
+    
+    public void UpdateDiscount(int billId, int discount){
+        Connection connect = null;
+        try{
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            connect =DriverManager.getConnection(dbUrl, dbuserName, dbpassWord);
+            String sql = "UPDATE Bill SET  discount=? WHERE billID=? ";
+            PreparedStatement prepStmt = connect.prepareStatement(sql);
+            prepStmt.setInt(1, discount);
+            prepStmt.setInt(2, billId);
+            prepStmt.executeUpdate();
+            prepStmt.close();
+            connect.close();
+            
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+        }
+    }
+    
+    public int GetDiscount(int billId){
+        Connection connect = null;
+        int result=0;
+        try{
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            connect =DriverManager.getConnection(dbUrl, dbuserName, dbpassWord);
+            String sql = "SELECT discount FROM Bill WHERE billID=?";
+            PreparedStatement prepStmt = connect.prepareStatement(sql);
+            prepStmt.setInt(1,billId);
+            ResultSet rs =prepStmt.executeQuery();
+            while(rs.next()){
+                result = rs.getInt(1);
+            }
+        }
+        catch(Exception ex){
+            System.out.println("Connect Failure!");
+            ex.printStackTrace();
+        }
+        return result;
+    }
+    
+    public void UpdateTableId(int billId, int tableId){
+        Connection connect = null;
+        try{
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            connect =DriverManager.getConnection(dbUrl, dbuserName, dbpassWord);
+            String sql = "UPDATE Bill SET  idTable=? WHERE billID=? ";
+            PreparedStatement prepStmt = connect.prepareStatement(sql);
+            prepStmt.setInt(1, tableId);
+            prepStmt.setInt(2, billId);
+            prepStmt.executeUpdate();
+            prepStmt.close();
+            connect.close();
+            
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+        }
     }
 }

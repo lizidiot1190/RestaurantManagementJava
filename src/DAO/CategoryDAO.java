@@ -18,9 +18,9 @@ import static javax.management.remote.JMXConnectorFactory.connect;
  * @author Admin
  */
 public class CategoryDAO {
-    private static String dbUrl ="jdbc:sqlserver://localhost:1234;"+"databaseName=RestaurantManagement;"+"integratedSercuriry=true";
+    private static String dbUrl ="jdbc:sqlserver://localhost:1433;"+"databaseName=RestaurantManagement;"+"integratedSercuriry=true";
     private static String dbuserName="sa";
-    private static String dbpassWord="123456";
+    private static String dbpassWord="123123qq";
     //private Connection connect;
     
     
