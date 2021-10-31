@@ -43,6 +43,7 @@ public class BillInfoDAO {
         }
     }
     
+
     public void UpdateBillInfo(int billInfoId, int count, String note){
         Connection connect = null;
         try{
@@ -97,7 +98,8 @@ public class BillInfoDAO {
                 billInfo.setBillID(rs.getInt(2));
                 billInfo.setFoodId(rs.getInt(3));
                 billInfo.setCount(rs.getInt(4));
-                billInfo.setNote(rs.getString(5));
+                billInfo.setNote(rs.getString(5));                
+                ListBillInfo.add(billInfo);               
             }
             else{
                 return billInfo;

@@ -83,6 +83,11 @@ public class MenuAdminGUI extends javax.swing.JFrame {
         btnRevenue.setForeground(new java.awt.Color(240, 109, 10));
         btnRevenue.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8-revenue-64.png"))); // NOI18N
         btnRevenue.setText("Revenue");
+        btnRevenue.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRevenueActionPerformed(evt);
+            }
+        });
 
         btnTable.setBackground(new java.awt.Color(153, 255, 255));
         btnTable.setFont(new java.awt.Font("Magneto", 1, 36)); // NOI18N
@@ -252,6 +257,11 @@ public class MenuAdminGUI extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_btnFoodActionPerformed
 
+    private void btnRevenueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRevenueActionPerformed
+        Revenue rvn = new Revenue();
+        rvn.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btnRevenueActionPerformed
     private void btnAccountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAccountActionPerformed
         // TODO add your handling code here:
         AccountGUI account = new AccountGUI();

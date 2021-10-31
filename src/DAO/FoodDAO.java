@@ -52,6 +52,7 @@ public class FoodDAO {
         }
         return foodList;
     }
+    
     public void AddFood(String foodName, int catID, String Price)
     {
         Connection connect = null;  

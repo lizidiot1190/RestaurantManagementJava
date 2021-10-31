@@ -6,6 +6,7 @@
 package DAO;
 
 import DTO.BillDTO;
+import DTO.BillInfoDTO;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -46,6 +47,7 @@ public class BillDAO {
         }
     }
     
+
     public void AddBill( int tableId, String checkIn, String checkOut){
         Connection connect = null;
         try{
@@ -94,7 +96,6 @@ public class BillDAO {
         }
         return bill;
     }
-    
     
     // check ban da co bill chua, chua co bill tra ve false, dang co bill tra ve true
     public boolean CheckBillStatus(int tableId){
@@ -165,7 +166,80 @@ public class BillDAO {
         catch(Exception ex){
             ex.printStackTrace();
         }
-        return date;
+    
+    public ArrayList<BillDTO> GetBillListByStatus(){
+        Connection connect = null;
+        ArrayList<BillDTO> ListBill =new ArrayList<>();
+        
+        try{
+            
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            connect =DriverManager.getConnection(dbUrl, dbuserName, dbpassWord);
+            String sql = "SELECT * FROM Bill WHERE billStatus=1";
+            PreparedStatement prepStmt = connect.prepareStatement(sql);
+            ResultSet rs = prepStmt.executeQuery();
+            while(rs.next()){
+                BillDTO bill=new BillDTO();
+               
+                bill.setId(rs.getInt(1));
+                bill.setTableId(rs.getInt(2));
+                bill.setCheckIn(rs.getDate(3));
+                bill.setCheckOut(rs.getDate(4));
+                bill.setBillStatus(rs.getInt(5));
+                bill.setDiscount(rs.getInt(6));
+                   
+                ListBill.add(bill);               
+            }
+
+            prepStmt.close();
+            rs.close();
+            connect.close();
+
+//            System.out.println("Connect to dadabase successfully!");
+        }catch(Exception ex){
+            System.out.println("Connect Failure!");
+            ex.printStackTrace();
+        }
+        return ListBill;
+    }
+    
+    public ArrayList<BillDTO> GetBillListByDate(String fd, String scd){
+        Connection connect = null;
+        ArrayList<BillDTO> ListBill =new ArrayList<>();
+        
+        try{
+            
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            connect =DriverManager.getConnection(dbUrl, dbuserName, dbpassWord);
+            String sql = "SELECT * FROM Bill WHERE billStatus=1 AND checkOut BETWEEN ? AND ?";
+            PreparedStatement prepStmt = connect.prepareStatement(sql);
+            
+            prepStmt.setString(1, fd);
+            prepStmt.setString(2, scd);
+            ResultSet rs = prepStmt.executeQuery();
+            while(rs.next()){
+                BillDTO bill=new BillDTO();
+               
+                bill.setId(rs.getInt(1));
+                bill.setTableId(rs.getInt(2));
+                bill.setCheckIn(rs.getDate(3));
+                bill.setCheckOut(rs.getDate(4));
+                bill.setBillStatus(rs.getInt(5));
+                bill.setDiscount(rs.getInt(6));
+                   
+                ListBill.add(bill);               
+            }
+
+            prepStmt.close();
+            rs.close();
+            connect.close();
+
+//            System.out.println("Connect to dadabase successfully!");
+        }catch(Exception ex){
+            System.out.println("Connect Failure!");
+            ex.printStackTrace();
+        }
+        return ListBill;
     }
     
     public void CheckOutBill(int billID,String checkOut, int discount){

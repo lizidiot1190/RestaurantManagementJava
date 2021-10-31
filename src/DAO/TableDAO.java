@@ -170,6 +170,26 @@ public class TableDAO {
         return listTableName;
     }
     
+    public String GetTableNameById(int id){
+        Connection connect = null;
+        String tableName="";
+        try{
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            connect =DriverManager.getConnection(dbUrl, dbuserName, dbpassWord);
+            String sql = "SELECT tableName FROM CustomerTable WHERE tableID=?";
+            PreparedStatement prepStmt = connect.prepareStatement(sql);
+            prepStmt.setInt(1, id);
+            ResultSet rs = prepStmt.executeQuery();
+            while(rs.next()){
+                tableName=rs.getString(1);
+            }
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return tableName;
+    }
+}
     public String GetTableName(int tableId){
         Connection connect = null;
         String name="";
