@@ -98,8 +98,7 @@ public class BillInfoDAO {
                 billInfo.setBillID(rs.getInt(2));
                 billInfo.setFoodId(rs.getInt(3));
                 billInfo.setCount(rs.getInt(4));
-                billInfo.setNote(rs.getString(5));                
-                ListBillInfo.add(billInfo);               
+                billInfo.setNote(rs.getString(5));                            
             }
             else{
                 return billInfo;
@@ -115,6 +114,35 @@ public class BillInfoDAO {
     }
     
     public ArrayList<BillInfoDTO> GetListBillInfoByBillId(int billId){
+        Connection connect = null;
+        ArrayList<BillInfoDTO> listBillInfo = new ArrayList<>();
+        try{
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            connect =DriverManager.getConnection(dbUrl, dbuserName, dbpassWord);
+            String sql = "SELECT * FROM BillInfo WHERE idBill=?";
+            PreparedStatement prepStmt = connect.prepareStatement(sql);
+            prepStmt.setInt(1, billId);
+            ResultSet rs =prepStmt.executeQuery();
+            while(rs.next()){
+                BillInfoDTO billInfo = new BillInfoDTO();
+                billInfo.setBillInfoId(rs.getInt(1));
+                billInfo.setBillID(rs.getInt(2));
+                billInfo.setFoodId(rs.getInt(3));
+                billInfo.setCount(rs.getInt(4));
+                billInfo.setNote(rs.getString(5));
+                listBillInfo.add(billInfo);
+            }
+            rs.close();
+            prepStmt.close();
+            connect.close();
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return listBillInfo;
+    }
+    
+    public ArrayList<BillInfoDTO> GetBillInfoListByBillId(int billId){
         Connection connect = null;
         ArrayList<BillInfoDTO> listBillInfo = new ArrayList<>();
         try{

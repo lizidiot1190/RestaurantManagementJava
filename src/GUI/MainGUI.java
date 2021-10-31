@@ -52,7 +52,6 @@ public class MainGUI extends javax.swing.JFrame {
 
         flpTable = new javax.swing.JPanel();
         btnLogout = new javax.swing.JButton();
-        panel1 = new java.awt.Panel();
         btnManage = new javax.swing.JButton();
         lbDisplayName = new javax.swing.JLabel();
         jCalendar1 = new com.toedter.calendar.JCalendar();
@@ -82,11 +81,13 @@ public class MainGUI extends javax.swing.JFrame {
                 formWindowActivated(evt);
             }
         });
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         flpTable.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         flpTable.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         flpTable.setMaximumSize(new java.awt.Dimension(900, 630));
         flpTable.setMinimumSize(new java.awt.Dimension(900, 630));
+        getContentPane().add(flpTable, new org.netbeans.lib.awtextra.AbsoluteConstraints(295, 42, 1282, 711));
 
         btnLogout.setFont(new java.awt.Font("Tahoma", 1, 17)); // NOI18N
         btnLogout.setText("Đăng xuất");
@@ -95,17 +96,7 @@ public class MainGUI extends javax.swing.JFrame {
                 btnLogoutActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout panel1Layout = new javax.swing.GroupLayout(panel1);
-        panel1.setLayout(panel1Layout);
-        panel1Layout.setHorizontalGroup(
-            panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 159, Short.MAX_VALUE)
-        );
-        panel1Layout.setVerticalGroup(
-            panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 225, Short.MAX_VALUE)
-        );
+        getContentPane().add(btnLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(142, 370, 124, 58));
 
         btnManage.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         btnManage.setText("Quản lý");
@@ -114,56 +105,14 @@ public class MainGUI extends javax.swing.JFrame {
                 btnManageActionPerformed(evt);
             }
         });
+        getContentPane().add(btnManage, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 370, 124, 58));
 
         lbDisplayName.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         lbDisplayName.setText("DisplayName");
+        getContentPane().add(lbDisplayName, new org.netbeans.lib.awtextra.AbsoluteConstraints(72, 307, -1, -1));
 
         jCalendar1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(12, 12, 12)
-                                .addComponent(btnManage, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(60, 60, 60)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lbDisplayName)
-                                    .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jCalendar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGap(18, 18, 18)
-                .addComponent(flpTable, javax.swing.GroupLayout.PREFERRED_SIZE, 1282, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(38, 38, 38))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(42, 42, 42)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(flpTable, javax.swing.GroupLayout.PREFERRED_SIZE, 711, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(38, 38, 38)
-                        .addComponent(lbDisplayName)
-                        .addGap(36, 36, 36)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnManage, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(jCalendar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(81, Short.MAX_VALUE))
-        );
+        getContentPane().add(jCalendar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 446, -1, 307));
 
         pack();
         setLocationRelativeTo(null);
@@ -247,7 +196,6 @@ public class MainGUI extends javax.swing.JFrame {
     public static javax.swing.JPanel flpTable;
     private com.toedter.calendar.JCalendar jCalendar1;
     public static javax.swing.JLabel lbDisplayName;
-    private java.awt.Panel panel1;
     // End of variables declaration//GEN-END:variables
 
 }

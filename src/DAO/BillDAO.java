@@ -166,7 +166,14 @@ public class BillDAO {
         catch(Exception ex){
             ex.printStackTrace();
         }
+        
+        return date;
+    }
     
+    /**
+     *
+     * @return
+     */
     public ArrayList<BillDTO> GetBillListByStatus(){
         Connection connect = null;
         ArrayList<BillDTO> ListBill =new ArrayList<>();

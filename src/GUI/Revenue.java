@@ -81,6 +81,7 @@ public class Revenue extends javax.swing.JFrame {
         jLabel1.setText("Tổng Doanh Thu:");
 
         txtRevenue.setEditable(false);
+        txtRevenue.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         txtRevenue.setToolTipText("");
 
         jLabel2.setText("From:");
@@ -120,16 +121,8 @@ public class Revenue extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jDate2, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(71, 71, 71)
-                        .addComponent(btnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                        .addComponent(txtRevenue, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(16, 16, 16))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(298, 298, 298)
-                .addComponent(jLabel3)
-                .addGap(353, 353, 353))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -152,6 +145,7 @@ public class Revenue extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
@@ -162,6 +156,8 @@ public class Revenue extends javax.swing.JFrame {
         // TODO add your handling code here:
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         revenueBLL.ShowRevenueByDate(jTable1, df.format(jDate1.getDate()), df.format(jDate2.getDate()));
+        String s = revenueBLL.valueOf(revenueBLL.TotalPriceByDate(df.format(jDate1.getDate()), df.format(jDate2.getDate())));
+        txtRevenue.setText(s+"vnd");
         System.out.println( df.format(jDate1.getDate()));
     }//GEN-LAST:event_btnOKActionPerformed
 

@@ -7,14 +7,11 @@ package BLL;
 
 import DAO.BillDAO;
 import DAO.BillInfoDAO;
-import DAO.CategoryDAO;
 import DAO.FoodDAO;
 import DAO.TableDAO;
 import DTO.BillDTO;
 import DTO.BillInfoDTO;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -51,7 +48,7 @@ public class RevenueBLL {
             for(int j=0;j<listBillInfo.size();j++){
                 double tam=0;
                 foodDAO =new FoodDAO();
-                double price= Double.parseDouble(foodDAO.GetFoodPriceById(listBillInfo.get(j).getFoodId()));
+                double price= (foodDAO.GetFoodPriceById(listBillInfo.get(j).getFoodId()));
                 tam=price* listBillInfo.get(j).getCount();
                 total=tam+total;
             }
@@ -87,7 +84,7 @@ public class RevenueBLL {
             for(int j=0;j<listBillInfo.size();j++){
                 double tam=0;
                 foodDAO =new FoodDAO();
-                double price= Double.parseDouble(foodDAO.GetFoodPriceById(listBillInfo.get(j).getFoodId()));
+                double price=(foodDAO.GetFoodPriceById(listBillInfo.get(j).getFoodId()));
                 tam=price* listBillInfo.get(j).getCount();
                 total=tam+total;
             }
@@ -100,42 +97,6 @@ public class RevenueBLL {
             revenuetb.addRow(row);
         }
     }
-    
-    //===============================================================================================================
-    /*
-    public String valueOf(double i)
-    {
-        String s = String.valueOf(i);
-        return s;
-    }
-    
-    
-    public double TotalPrice()
-    {
-        FoodDAO foodDAO ;
-        TableDAO tableDAO = new TableDAO();
-        BillDAO billDAO =new BillDAO();       
-        BillInfoDAO billInfoDAO =new BillInfoDAO();
-        
-        listBill =billDAO.GetBillListByStatus();
-        double Total=0;
-        for(int i = 0; i < listBill.size(); i++)
-        {
-            double total=0;       
-            listBillInfo =billInfoDAO.GetBillInfoListByBillId(listBill.get(i).getId());
-            for(int j=0;j<listBillInfo.size();j++){
-                double tam=0;
-                foodDAO =new FoodDAO();
-                double price= Double.parseDouble(foodDAO.GetFoodPriceById(listBillInfo.get(j).getFoodId()));
-                tam=price* listBillInfo.get(j).getCount();
-                total=tam+total;
-            }
-            Total=Total+(total-(total*listBill.get(i).getDiscount()/100));
-        }
-        return Total;
-    }
-    */
-    //================================================================================================
     
     public String valueOf(long i)
     {
@@ -159,7 +120,32 @@ public class RevenueBLL {
             for(int j=0;j<listBillInfo.size();j++){
                 long tam=0;
                 foodDAO =new FoodDAO();
-                long price= Long.parseLong(foodDAO.GetFoodPriceById(listBillInfo.get(j).getFoodId()));
+                long price=(long) (foodDAO.GetFoodPriceById(listBillInfo.get(j).getFoodId()));
+                tam=price* listBillInfo.get(j).getCount();
+                total=tam+total;
+            }
+            Total=Total+(total-(total*listBill.get(i).getDiscount()/100));
+        }
+        return Total;
+    }
+    
+    public long TotalPriceByDate(String fd, String scd)
+    {
+        FoodDAO foodDAO ;
+        TableDAO tableDAO = new TableDAO();
+        BillDAO billDAO =new BillDAO();       
+        BillInfoDAO billInfoDAO =new BillInfoDAO();
+        
+        listBill =billDAO.GetBillListByDate(fd, scd);
+        long Total=0;
+        for(int i = 0; i < listBill.size(); i++)
+        {
+            long total=0;       
+            listBillInfo =billInfoDAO.GetBillInfoListByBillId(listBill.get(i).getId());
+            for(int j=0;j<listBillInfo.size();j++){
+                long tam=0;
+                foodDAO =new FoodDAO();
+                long price=(long) (foodDAO.GetFoodPriceById(listBillInfo.get(j).getFoodId()));
                 tam=price* listBillInfo.get(j).getCount();
                 total=tam+total;
             }

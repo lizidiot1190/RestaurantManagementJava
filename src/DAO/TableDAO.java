@@ -189,7 +189,6 @@ public class TableDAO {
         }
         return tableName;
     }
-}
     public String GetTableName(int tableId){
         Connection connect = null;
         String name="";

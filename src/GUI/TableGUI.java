@@ -375,6 +375,9 @@ public class TableGUI extends javax.swing.JFrame {
     private void btnDiscountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDiscountActionPerformed
         if((Integer)spDiscount.getValue()>100||(Integer)spDiscount.getValue()<0 ){
             JOptionPane.showMessageDialog(this, "Số lượng giảm giá không đúng!");
+            billDAO = new BillDAO();
+            int billId = billDAO.GetBillId(tableId);
+            spDiscount.setValue(billDAO.GetDiscount(billId));
         }
         else{
             int discount = (int) spDiscount.getValue();
@@ -442,6 +445,12 @@ public class TableGUI extends javax.swing.JFrame {
         String newTable = (String) cbChangeTable.getSelectedItem();
         tableBLL = new TableBLL();
         tableBLL.ChangeTable(newTable, tableId);
+        MainGUI.flpTable.removeAll();
+            tableBLL =new TableBLL();
+            tableBLL.loadTable(MainGUI.flpTable);
+            MainGUI.flpTable.validate();
+            MainGUI.flpTable.revalidate();
+            MainGUI.flpTable.repaint();
     }//GEN-LAST:event_btnChangeTableActionPerformed
 
     /**
