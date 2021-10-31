@@ -5,12 +5,15 @@
 package BLL;
 
 import DAO.BillDAO;
+import DAO.CategoryDAO;
 import DTO.BillDTO;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -40,4 +43,22 @@ public class BillBLL {
         Date checkOut=new Date();
         billDAO.CheckOutBill(billId, checkOut);
     }
+    
+    /*public void GetBillList(JTable table)
+    {
+        BillDAO billDAO = new BillDAO();
+        listBill=billDAO.GetBillList();
+        DefaultTableModel billtb=(DefaultTableModel)table.getModel();
+        billtb.setRowCount(0);
+        Object row[] = new Object[2];
+        for(int i = 0; i < listBill.size(); i++)
+        {
+            row[0]=listBill.get(i).getTableId();
+            row[1]=listBill.get(i).getCheckIn();
+            row[2]=listBill.get(i).getCheckOut();
+            row[3]=;
+            //System.out.print(categoryList.get(i).getCategoryName());
+            billtb.addRow(row);
+        }
+    }*/
 }

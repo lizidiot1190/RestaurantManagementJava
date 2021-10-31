@@ -52,6 +52,7 @@ public class FoodDAO {
         }
         return foodList;
     }
+    
     public void AddFood(String foodName, int catID, String Price)
     {
         Connection connect = null;  
@@ -129,6 +130,26 @@ public class FoodDAO {
             System.out.print("Fail!!");
             e.printStackTrace();
         }
+    }
+    
+    public String GetFoodPriceById(int id){
+        Connection connect = null;
+        String foodPrice="";
+        try{
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            connect =DriverManager.getConnection(dbUrl, dbuserName, dbpassWord);
+            String sql = "SELECT foodPrice FROM Food WHERE foodID=?";
+            PreparedStatement prepStmt = connect.prepareStatement(sql);
+            prepStmt.setInt(1, id);
+            ResultSet rs = prepStmt.executeQuery();
+            while(rs.next()){
+                foodPrice=rs.getString(1);
+            }
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return foodPrice;
     }
 }
 

@@ -170,9 +170,24 @@ public class TableDAO {
         
         return listTable;
     }
+    
+    public String GetTableNameById(int id){
+        Connection connect = null;
+        String tableName="";
+        try{
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            connect =DriverManager.getConnection(dbUrl, dbuserName, dbpassWord);
+            String sql = "SELECT tableName FROM CustomerTable WHERE tableID=?";
+            PreparedStatement prepStmt = connect.prepareStatement(sql);
+            prepStmt.setInt(1, id);
+            ResultSet rs = prepStmt.executeQuery();
+            while(rs.next()){
+                tableName=rs.getString(1);
+            }
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return tableName;
+    }
 }
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
